@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "485402340950",
+    "project_id": "krys-mynotes",
+    "storage_bucket": "krys-mynotes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485402340950:android:5ca649d386f0b5285795f7",
+        "android_client_info": {
+          "package_name": "com.example.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485402340950-uhgqj675i5kd3f11qg16pt713kqfom10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb7ykT5jEOPSBZJYbyDlF-l5-b1VBUzUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485402340950-uhgqj675i5kd3f11qg16pt713kqfom10.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "485402340950-mdaqr7if1uvu49j0ab22n3ek9rao91tq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.krysnkem.mynotes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485402340950:android:d3fb9372d37dc2015795f7",
+        "android_client_info": {
+          "package_name": "com.krysnkem.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485402340950-uhgqj675i5kd3f11qg16pt713kqfom10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb7ykT5jEOPSBZJYbyDlF-l5-b1VBUzUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485402340950-uhgqj675i5kd3f11qg16pt713kqfom10.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "485402340950-mdaqr7if1uvu49j0ab22n3ek9rao91tq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.krysnkem.mynotes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
