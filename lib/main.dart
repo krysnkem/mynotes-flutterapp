@@ -14,7 +14,8 @@ void main() {
     home: const HomePage(),
     routes: {
       '/login/': (context) => const LoginView(),
-      '/register/': (context) => const RegisterView()
+      '/register/': (context) => const RegisterView(),
+      '/notes/': (context) => const HomePage()
     },
   ));
 }
@@ -29,7 +30,7 @@ class HomePage extends StatelessWidget {
             options: DefaultFirebaseOptions.currentPlatform),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            debugPrint(snapshot.error.toString());
+            devtools.log(snapshot.error.toString());
             return const Text('error occured');
           }
           switch (snapshot.connectionState) {
@@ -37,7 +38,7 @@ class HomePage extends StatelessWidget {
               final user = FirebaseAuth.instance.currentUser;
               if (user != null) {
                 if (user.emailVerified) {
-                  print('Email is verified');
+                  devtools.log('Email is verified');
                   return const NotesView();
                 } else {
                   return const VerifyEmailView();
@@ -47,7 +48,9 @@ class HomePage extends StatelessWidget {
               }
 
             default:
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
           }
         });
   }
@@ -79,8 +82,10 @@ class _NotesViewState extends State<NotesView> {
                   if (shouldLogOut) {
                     await FirebaseAuth.instance.signOut();
                     if (context.mounted) {
-                      Navigator.of(context)
-                          .pushNamedAndRemoveUntil('/login/', (_) => false);
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/login/',
+                        (_) => false,
+                      );
                     }
                   }
                   break;
