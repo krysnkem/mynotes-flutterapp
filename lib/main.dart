@@ -3,10 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/firebase_options.dart';
+import 'package:mynotes/utilities/show_logout_dialog.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verfiy_email_view.dart';
 import 'dart:developer' as devtools show log;
+
+import 'constants/menu_action.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,8 +67,6 @@ class NotesView extends StatefulWidget {
   State<NotesView> createState() => _NotesViewState();
 }
 
-enum MenuAction { logout }
-
 class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
@@ -104,29 +105,4 @@ class _NotesViewState extends State<NotesView> {
       body: const Text('Hello World'),
     );
   }
-}
-
-Future<bool> showLogoutDialog(BuildContext context) {
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Sign out'),
-          content: const Text('Are you sure you want to sign out?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: const Text('Log out'),
-            ),
-          ],
-        );
-      }).then((value) => value ?? false);
 }
