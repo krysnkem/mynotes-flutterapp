@@ -59,9 +59,19 @@ class _LoginViewState extends State<LoginView> {
                   if (email.isNotEmpty && password.isNotEmpty) {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: email, password: password);
+                    final user = FirebaseAuth.instance.currentUser;
                     if (context.mounted) {
-                      Navigator.of(context)
-                          .pushNamedAndRemoveUntil(notesRoute, (_) => false);
+                      if (user?.emailVerified ?? false) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          notesRoute,
+                          (_) => false,
+                        );
+                      } else {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          verifyEmailRoute,
+                          (route) => false,
+                        );
+                      }
                     }
                   } else {
                     await showErrorDialog(
