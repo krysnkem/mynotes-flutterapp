@@ -1,9 +1,7 @@
-import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mynotes/constants/menu_action.dart';
+import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/show_logout_dialog.dart';
 
 class VerifyEmailView extends StatefulWidget {
@@ -26,7 +24,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             if (value == MenuAction.logout) {
               final shouldLogOut = await showLogoutDialog(context);
               if (shouldLogOut) {
-                await FirebaseAuth.instance.signOut();
+                await AuthService.firebase().logOut();
                 if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     loginRoute,
@@ -54,14 +52,23 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             "If you haven't received a verification email yet, please press the button below",
           ),
           TextButton(
-              onPressed: () async {
-                final user = FirebaseAuth.instance.currentUser;
-                if (user == null) {
-                  log('user is null');
-                }
-                await user?.sendEmailVerification();
-              },
-              child: const Text('Send email verification'))
+            onPressed: () async {
+              await AuthService.firebase().sendEmailVerification();
+            },
+            child: const Text('Send email verification'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await AuthService.firebase().logOut();
+              if (mounted) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
+              }
+            },
+            child: const Text('Restart'),
+          )
         ],
       ),
     );
