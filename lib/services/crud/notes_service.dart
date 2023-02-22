@@ -18,7 +18,6 @@ class NotesService {
   NotesService._sharedInstance();
   factory NotesService() => _shared;
 
-  
   Future<void> _cacheNotes() async {
     final allnotes = await getAllNotes();
     _notes = allnotes.toList();
@@ -36,9 +35,11 @@ class NotesService {
 
   Future<DatabaseUser> getOrCreateUser({required String email}) async {
     try {
+      //get the user
       final user = await getUser(email: email);
       return user;
     } on CoulNotFindUserException {
+      //if no user is found then create a user and return it
       final createdUser = await createUser(email: email);
       return createdUser;
     } catch (e) {
@@ -48,16 +49,19 @@ class NotesService {
 
   //create notes
   Future<DatabaseNote> createNote({required DatabaseUser owner}) async {
+    //ensure that the database is open
     await _ensureDbIsOpen();
 
+    //get the database instace or throw an error if not opened
     final db = _getDatabaseOrThrow();
-
+    //find the user in the database
     final dbUser = await getUser(email: owner.email);
 
     //ensure that owner with a given id exists in the database with the given email
     if (dbUser != owner) throw CoulNotFindUserException();
 
     const text = '';
+    //insert an note with empty text in the database
     final noteId = await db.insert(
       noteTable,
       {
@@ -67,7 +71,9 @@ class NotesService {
       },
     );
 
+    //if the note was not created then throw an error
     if (noteId == 0) throw CouldNotCreateNoteException();
+    //create a database note
     final note = DatabaseNote(
       id: noteId,
       userId: owner.id,
@@ -75,9 +81,12 @@ class NotesService {
       isSyncedWithCloud: true,
     );
 
+    //add the note to list of notes
     _notes.add(note);
+    //pass the list of notes to the stream controller
     _notesStreamController.add(_notes);
 
+    //return the note
     return note;
   }
 

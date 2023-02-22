@@ -4,7 +4,7 @@ import 'package:mynotes/views/verfiy_email_view.dart';
 
 import '../firebase_options.dart';
 import 'login_view.dart';
-import 'notes_view.dart';
+import 'notes/notes_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
