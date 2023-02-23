@@ -3,21 +3,31 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/crud/notes_service.dart';
+import '../../utilities/dialogs/generics/get_arguments.dart';
 
-class NewNoteView extends StatefulWidget {
-  const NewNoteView({super.key});
+class CreateUpdateNoteView extends StatefulWidget {
+  const CreateUpdateNoteView({super.key});
 
   @override
-  State<NewNoteView> createState() => _NewNoteViewState();
+  State<CreateUpdateNoteView> createState() => _CreateUpdateNoteViewState();
 }
 
-class _NewNoteViewState extends State<NewNoteView> {
+class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   DatabaseNote? _note;
   late TextEditingController _textEditingController;
   late NotesService _notesService;
 
-  Future<DatabaseNote> createNewNote() async {
+  Future<DatabaseNote> createOrGetExistingNote(BuildContext context) async {
+    //get the note argument if any
+    final widgetNote = context.getArgument<DatabaseNote>();
+
+    if (widgetNote != null) {
+      _note = widgetNote;
+      _textEditingController.text = widgetNote.text;
+      return widgetNote;
+    }
     final existingNote = _note;
+
     if (existingNote != null) {
       return existingNote;
     } else {
@@ -25,6 +35,7 @@ class _NewNoteViewState extends State<NewNoteView> {
       final email = currentUser.email!;
       final owner = await _notesService.getOrCreateUser(email: email);
       final note = await _notesService.createNote(owner: owner);
+      _note = note;
       log('note created..');
       return note;
     }
@@ -38,7 +49,6 @@ class _NewNoteViewState extends State<NewNoteView> {
       note: note,
       text: text,
     );
-    log('controller updated note...');
   }
 
   void _setUpTextControllerListener() async {
@@ -59,7 +69,6 @@ class _NewNoteViewState extends State<NewNoteView> {
     final text = _textEditingController.text;
     if (note != null && text.isNotEmpty) {
       await _notesService.updateNote(note: note, text: text);
-      log('note saved..');
     }
   }
 
@@ -82,16 +91,14 @@ class _NewNoteViewState extends State<NewNoteView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New note'),
+        title: _setTitle(context),
       ),
       body: FutureBuilder(
-          future: createNewNote(),
+          future: createOrGetExistingNote(context),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
-                _note = snapshot.data;
                 _setUpTextControllerListener();
-
                 return TextField(
                   controller: _textEditingController,
                   keyboardType: TextInputType.multiline,
@@ -107,5 +114,14 @@ class _NewNoteViewState extends State<NewNoteView> {
             }
           }),
     );
+  }
+
+  Widget _setTitle(BuildContext context) {
+    final widgetNote = context.getArgument<DatabaseNote>();
+    if (widgetNote == null) {
+      return const Text('New Note');
+    } else {
+      return const Text('Edit Note');
+    }
   }
 }

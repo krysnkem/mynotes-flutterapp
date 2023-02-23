@@ -91,11 +91,11 @@ class NotesService {
       isSyncedWithCloud: true,
     );
 
-    // //add the note to list of notes
-    // _notes.add(note);
-    // //pass the list of notes to the stream controller
-    // _notesStreamController.add(_notes);
-    _cacheNotes();
+    //add the note to list of notes
+    _notes.add(note);
+    //pass the list of notes to the stream controller
+    _notesStreamController.add(_notes);
+    // _cacheNotes();
 
     //return the note
     return note;
@@ -112,9 +112,9 @@ class NotesService {
     if (deleteCount == 0) {
       throw CouldNotDeleteNoteException();
     } else {
-      // _notes.removeWhere((note) => note.id == id);
-      // _notesStreamController.add(_notes);
-      _cacheNotes();
+      _notes.removeWhere((note) => note.id == id);
+      _notesStreamController.add(_notes);
+      // _cacheNotes();
     }
   }
 
@@ -141,9 +141,9 @@ class NotesService {
 
     if (notes.isEmpty) throw CouldNotFindNoteException();
     final note = DatabaseNote.fromRow(notes.first);
-    _notes.removeWhere((note) => note.id == id);
-    _notes.add(note);
-    _notesStreamController.add(_notes);
+    // _notes.removeWhere((note) => note.id == id);
+    // _notes.add(note);
+    // _notesStreamController.add(_notes);
     return note;
   }
 
@@ -173,10 +173,10 @@ class NotesService {
         where: "id=?", whereArgs: [note.id]);
     if (updateCount == 0) throw CoulNotUpdateNoteException();
     final updatedNote = await getNote(id: note.id);
-    // _notes.removeWhere((note) => note.id == updatedNote.id);
-    // _notes.add(updatedNote);
-    // _notesStreamController.add(_notes);
-    _cacheNotes();
+    _notes.removeWhere((note) => note.id == updatedNote.id);
+    _notes.add(updatedNote);
+    _notesStreamController.add(_notes);
+    // _cacheNotes();
     return updatedNote;
   }
 
