@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/crud/notes_service.dart';
@@ -22,7 +24,9 @@ class _NewNoteViewState extends State<NewNoteView> {
       final currentUser = AuthService.firebase().currentUser!;
       final email = currentUser.email!;
       final owner = await _notesService.getOrCreateUser(email: email);
-      return await _notesService.createNote(owner: owner);
+      final note = await _notesService.createNote(owner: owner);
+      log('note created..');
+      return note;
     }
   }
 
@@ -34,6 +38,7 @@ class _NewNoteViewState extends State<NewNoteView> {
       note: note,
       text: text,
     );
+    log('controller updated note...');
   }
 
   void _setUpTextControllerListener() async {
@@ -45,6 +50,7 @@ class _NewNoteViewState extends State<NewNoteView> {
     final note = _note;
     if (_textEditingController.text.isEmpty && note != null) {
       _notesService.deleteNote(id: note.id);
+      log('note deleted....');
     }
   }
 
@@ -53,6 +59,7 @@ class _NewNoteViewState extends State<NewNoteView> {
     final text = _textEditingController.text;
     if (note != null && text.isNotEmpty) {
       await _notesService.updateNote(note: note, text: text);
+      log('note saved..');
     }
   }
 
