@@ -195,7 +195,7 @@ class NotesService {
     final updateCount = await db.update(
         noteTable, {textColumn: text, isSyncedWithCloudColumn: 0},
         where: "id=?", whereArgs: [note.id]);
-    if (updateCount == 0) throw CoulNotUpdateNoteException();
+    if (updateCount == 0) throw CouldNotUpdateNoteException();
     final updatedNote = await getNote(id: note.id);
     _notes.removeWhere((note) => note.id == updatedNote.id);
     _notes.add(updatedNote);
