@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/views/verfiy_email_view.dart';
 
-import '../firebase_options.dart';
 import 'login_view.dart';
 import 'notes/notes_view.dart';
 
