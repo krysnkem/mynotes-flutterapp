@@ -75,7 +75,6 @@ class _NotesViewState extends State<NotesView> {
             case ConnectionState.active:
               if (snapshot.hasData) {
                 final allNotes = snapshot.data!;
-                print(allNotes);
                 return NotesListView(
                   allNotes: allNotes,
                   onDeleteNote: (CloudNote note) async {
