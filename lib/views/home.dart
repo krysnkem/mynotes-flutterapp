@@ -4,6 +4,7 @@ import 'package:mynotes/helpers/loading/loading_screen.dart';
 import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/auth/bloc/auth_state.dart';
+import 'package:mynotes/views/forgot_password_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verfiy_email_view.dart';
 
@@ -37,6 +38,8 @@ class HomePage extends StatelessWidget {
           return const LoginView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();
+        } else if (state is AuthStateForgotPassword) {
+          return const ForgotPasswordView();
         } else {
           return const Scaffold(
             body: Center(

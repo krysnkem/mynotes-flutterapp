@@ -20,28 +20,39 @@ class AuthStateUnitialized extends AuthState {
 
 class AuthStateRegistering extends AuthState {
   final Exception? exception;
-  const AuthStateRegistering({this.exception, required bool isLoading}): super(isLoading: isLoading);
+  const AuthStateRegistering({this.exception, required bool isLoading})
+      : super(isLoading: isLoading);
 }
 
 //for when the user is logged in
 class AuthStateLoggedIn extends AuthState {
   final AuthUser user;
-  const AuthStateLoggedIn({required this.user, required bool isLoading}): super(isLoading: isLoading);
+  const AuthStateLoggedIn({required this.user, required bool isLoading})
+      : super(isLoading: isLoading);
 }
 
 class AuthStateNeedsVerification extends AuthState {
-  const AuthStateNeedsVerification({required bool isLoading}): super(isLoading: isLoading);
+  const AuthStateNeedsVerification({required bool isLoading})
+      : super(isLoading: isLoading);
 }
 
 class AuthStateLoggedOut extends AuthState with EquatableMixin {
   final Exception? exception;
 
-  const AuthStateLoggedOut({
-    required this.exception,
-    required bool isLoading,
-    String? loadingText
-  }): super(isLoading: isLoading, loadingText: loadingText);
+  const AuthStateLoggedOut(
+      {required this.exception, required bool isLoading, String? loadingText})
+      : super(isLoading: isLoading, loadingText: loadingText);
 
   @override
   List<Object?> get props => [exception, isLoading];
+}
+
+class AuthStateForgotPassword extends AuthState {
+  final Exception? exception;
+  final bool hasSentEmail;
+  const AuthStateForgotPassword({
+    required super.isLoading,
+    required this.hasSentEmail,
+    required this.exception,
+  });
 }

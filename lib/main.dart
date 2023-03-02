@@ -6,7 +6,6 @@ import 'package:mynotes/services/firebase_auth_provider.dart';
 import 'package:mynotes/views/home.dart';
 import 'package:mynotes/views/notes/create_update_note_view.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
